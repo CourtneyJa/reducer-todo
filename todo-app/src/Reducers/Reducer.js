@@ -1,4 +1,4 @@
-export const initialState = [
+export const task = [
   {
     item: "Graduate from Lambda",
     completed: false,
@@ -6,31 +6,27 @@ export const initialState = [
   }
 ];
 
-export const reducer = (state = initialState, action) => {
+export const reducer = (state, action) => {
   switch (action.type) {
     case ADD_TODO:
+      console.log(ADD_TODO, "does it work");
       return [
         ...state,
         {
-          item: action.payload.item,
+          item: action.payload,
           completed: false,
           id: Date.now()
         }
       ];
     case TOGGLE_COMPLETED:
-      return state.map(todo => {
-        if (todo.id === action.payload.item.id) {
-          return { item: todo.item, completed: !todo.completed, id: todo.id };
+      return state.map(task => {
+        if (task.id === action.payload) {
+          return { ...task, completed: !task.completed };
         }
-        return todo;
+        return task;
       });
     case CLEAR_COMPLETED:
-      return state.filter(todo => {
-        if (todo.completed === false) {
-          return todo;
-        }
-        return null;
-      });
+      return state.filter(task => !task.completed);
     default:
       return state;
   }
